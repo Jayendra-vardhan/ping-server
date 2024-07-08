@@ -5,8 +5,14 @@ function App() {
     const pingServer = () => {
       fetch('https://form-server-shzd.onrender.com/')
         .then(response => response.json())
-        .then(data => console.log('Ping response:', data))
-        .catch(error => console.error('Error pinging server:', error));
+        .then(data => {
+          const timestamp = new Date().toLocaleString();
+          console.log(`[${timestamp}] Ping response:`, data);
+        })
+        .catch(error => {
+          const timestamp = new Date().toLocaleString();
+          console.error(`[${timestamp}] Error pinging server:`, error);
+        });
     };
 
     // Ping the server immediately on component mount
