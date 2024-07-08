@@ -1,22 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    const pingServer = () => {
+      fetch('https://form-server-shzd.onrender.com/')
+        .then(response => response.json())
+        .then(data => console.log('Ping response:', data))
+        .catch(error => console.error('Error pinging server:', error));
+    };
+
+    // Ping the server immediately on component mount
+    pingServer();
+
+    // Set up an interval to ping the server every 10 minutes
+    const intervalId = setInterval(pingServer, 600000); // 600000ms = 10 minutes
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>Pinging server every 10 minutes...</p>
       </header>
     </div>
   );
